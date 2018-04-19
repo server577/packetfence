@@ -208,7 +208,7 @@ our @API_V1_ROUTES = (
         controller => 'Redis',
         collection => {
             subroutes    => {
-                'queue' => {
+                'queue/stats' => {
                     get => 'queue'
                 },
             },
