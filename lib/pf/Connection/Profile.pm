@@ -609,6 +609,17 @@ sub canAccessRegistrationWhenRegistered {
     return isenabled($self->{_access_registration_when_registered});
 }
 
+=item unregOnAcctStop
+
+Deregister device on accounting stop
+
+=cut
+
+sub unregOnAcctStop {
+    my ($self) = @_;
+    return $self->{'_unreg_on_acct_stop'};
+}
+
 =back
 
 =head1 AUTHOR

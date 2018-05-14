@@ -40,7 +40,7 @@ The main definition block
 
 has_block 'definition' =>
   (
-    render_list => [qw(id description root_module preregistration autoregister reuse_dot1x_credentials dot1x_recompute_role_from_portal)],
+    render_list => [qw(id description root_module preregistration autoregister reuse_dot1x_credentials dot1x_recompute_role_from_portal unreg_on_acct_stop)],
   );
 
 =head2 captive_portal
@@ -198,6 +198,24 @@ has_field 'autoregister' =>
    tags => { after_element => \&help,
              help => 'This activates automatic registation of devices for the profile. Devices will not be shown a captive portal and RADIUS authentication credentials will be used to register the device. This option only makes sense in the context of an 802.1x authentication.' },
   );
+
+=head2 unreg_on_acct_stop
+
+Controls whether or not this connection profile will unregister a devices on accounting stop
+
+=cut
+
+has_field 'unreg_on_acct_stop' =>
+  (
+   type => 'Toggle',
+   label => 'Automatically deregister devices on accounting stop',
+   checkbox_value => 'enabled',
+   unchecked_value => 'disabled',
+   default => 'disabled',
+   tags => { after_element => \&help,
+             help => 'This activates automatic deregistation of devices for the profile if PacketFence receive an radius accounting stop.' },
+  );
+
 
 =head2 sources
 
