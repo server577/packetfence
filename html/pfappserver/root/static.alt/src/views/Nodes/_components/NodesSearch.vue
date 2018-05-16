@@ -277,7 +277,7 @@ export default {
           visible: false
         },
         {
-          key: 'category',
+          key: 'category_id',
           label: this.$i18n.t('Role'),
           sortable: true,
           visible: true
@@ -331,7 +331,7 @@ export default {
           visible: false
         },
         {
-          key: 'bypass_role',
+          key: 'bypass_role_id',
           label: this.$i18n.t('Bypass Role'),
           sortable: true,
           visible: false
