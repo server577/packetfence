@@ -185,13 +185,6 @@ export default {
   mounted () {
     this.$store.dispatch('$_nodes/getNode', this.mac)
     this.$store.dispatch('config/getViolations')
-    var vm = this
-    window.addEventListener('keyup', function (event) {
-      switch (event.keyCode) {
-        case 27: // escape
-          vm.close()
-      }
-    })
   }
 }
 </script>
