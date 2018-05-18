@@ -21,27 +21,79 @@
               <b-form-group horizontal label-cols="3" :label="$t('Notes')">
                 <b-form-textarea v-model="node.notes" rows="4" max-rows="6"></b-form-textarea>
               </b-form-group>
+              <pf-form-row id="pid" :label="$t('Owner')">
+                <b-form-input id="pid" v-model="node.pid"></b-form-input>
+              </pf-form-row>
+              <pf-form-row id="status" :label="$t('Status')">
+                <b-form-input v-model="node.status"></b-form-input>
+              </pf-form-row>
+              <pf-form-row id="category_id" :label="$t('Role')">
+                <b-form-input v-model="node.category_id"></b-form-input>
+              </pf-form-row>
             </b-col>
             <b-col>
-              <pf-form-row label="Name">
+              <pf-form-row :label="$t('Name')">
                 {{ node.computername }}
               </pf-form-row>
-              <pf-form-row label="Last Seen">
+              <pf-form-row :label="$t('Last Seen')">
                 {{ node.last_seen }}
               </pf-form-row>
-              <pf-form-row label="IPv4 Address" v-if="node.ip4">
+              <pf-form-row :label="$t('IPv4 Address')" v-if="node.ip4">
                 {{ node.ip4.ip }}
-                  <b-badge variant="success" v-if="node.ip4.active">Since {{node.ip4.start_time}}</b-badge>
-                  <b-badge variant="warning" v-else>Inactive since {{node.ip4.end_time}}</b-badge>
+                  <b-badge variant="success" v-if="node.ip4.active">{{ $t('Since') }} {{node.ip4.start_time}}</b-badge>
+                  <b-badge variant="warning" v-else-if="node.ip4.end_time">{{ $t('Inactive since') }} {{node.ip4.end_time}}</b-badge>
+                  <b-badge variant="danger" v-else>{{ $t('Inactive') }}</b-badge>
               </pf-form-row>
-              <pf-form-row label="IPv6 Address" v-if="node.ip6">
+              <pf-form-row label="IPv6 Address">
                 {{ node.ip6 }}
+              <pf-form-row :label="$t('IPv6 Address')" v-if="node.ip6">
+                {{ node.ip6.ip }}
+                  <b-badge variant="success" v-if="node.ip6.active">{{ $t('Since') }} {{node.ip6.start_time}}</b-badge>
+                  <b-badge variant="warning" v-else-if="node.ip6.end_time">{{ $t('Inactive since') }} {{node.ip6.end_time}}</b-badge>
+                  <b-badge variant="danger" v-else>{{ $t('Inactive') }}</b-badge>
               </pf-form-row>
             </b-col>
           </b-row>
         </b-tab>
 
         <b-tab title="Fingerbank">
+          <b-row>
+            <b-col>
+              <pf-form-row :label="$t('Device Class')">
+                {{node.device_class}}
+              </pf-form-row>
+              <pf-form-row :label="$t('Device Type')">
+                {{node.device_type}}
+              </pf-form-row>
+              <pf-form-row :label="$t('Fully Qualified Device Name')">
+                ...
+              </pf-form-row>
+              <pf-form-row :label="$t('Version')">
+                {{node.device_version}}
+              </pf-form-row>
+              <pf-form-row :label="$t('Score')">
+                <b-progress class="mt-1" :max="100">
+                  <b-progress-bar :value="parseFloat(node.device_score)" :precision="2" variant="success" show-value></b-progress-bar>
+                  <b-progress-bar :value="100 - parseFloat(node.device_score)" :precision="2" variant="danger"></b-progress-bar>
+                </b-progress>
+              </pf-form-row>
+              <pf-form-row :label="$t('Mobile')">
+                ...
+              </pf-form-row>
+              <pf-form-row :label="$t('DHCP Fingerprint')">
+                {{node.dhcp_fingerprint}}
+              </pf-form-row>
+              <pf-form-row :label="$t('DHCP Vendor')">
+                {{node.device_vendor}}
+              </pf-form-row>
+              <pf-form-row :label="$t('DHCPv6 Fingerprint')">
+                {{node.dhcp6_fingerprint}}
+              </pf-form-row>
+              <pf-form-row :label="$t('DHCPv6 Enterprise')">
+                {{node.dhcp6_enterprise}}
+              </pf-form-row>
+            </b-col>
+          </b-row>
         </b-tab>
 
         <b-tab title="IPv4 Addresses">

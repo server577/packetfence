@@ -83,6 +83,16 @@
         <template slot="actions" slot-scope="data">
           <input type="checkbox" :id="data.value" :value="data.item" v-model="checkedRows" @change="onCheckedRowsChange" @click.stop>
         </template>
+        <template slot="status" slot-scope="data">
+          <b-badge pill variant="success" v-if="data.value === 'reg'">{{ $t('registered') }}</b-badge>
+          <b-badge pill variant="light" v-else>{{ $t('unregistered') }}</b-badge>
+        </template>
+        <template slot="device_score" slot-scope="data">
+          <b-progress :max="100">
+            <b-progress-bar :value="data.value - 0" :precision="2" variant="success" show-value></b-progress-bar>
+            <b-progress-bar :value="100 - data.value" :precision="2" variant="danger"></b-progress-bar>
+          </b-progress>
+        </template>
       </b-table>
     </div>
   </b-card>
@@ -402,7 +412,12 @@ export default {
       return this.$store.state.$_nodes.searchSortDesc
     },
     visibleColumns () {
-      return this.columns.filter(column => column.visible)
+      let defaults = this.columns.filter(column => column.visible)
+      if (!localStorage.getItem('nodes.visibleColumns')) {
+        localStorage.setItem('nodes.visibleColumns', JSON.stringify(defaults.map(column => column.key)))
+        return defaults
+      }
+      return this.columns.filter(column => JSON.parse(localStorage.getItem('nodes.visibleColumns')).includes(column.key))
     },
     items () {
       return this.$store.state.$_nodes.items
@@ -454,6 +469,7 @@ export default {
     },
     toggleColumn (column) {
       column.visible = !column.visible
+      localStorage.setItem('nodes.visibleColumns', JSON.stringify(this.columns.filter(column => column.visible).map(column => column.key)))
     },
     onRowClick (item, index) {
       this.$router.push({ name: 'node', params: { mac: item.mac } })
